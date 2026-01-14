@@ -519,7 +519,10 @@ class ZippedHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
         # Pass through compressed data if the compression format is deflate
         # and the client accepts deflate or if there's no compression
-        accepted_encodings = self.headers.get("accept-encoding").split(",")
+        if "accept-encoding" in self.headers:
+            accepted_encodings = self.headers.get("accept-encoding").split(",")
+        else:
+            accepted_encodings = []
         logger.debug("accept-encoding %s", accepted_encodings)
         serve_compressed = any([encoding.strip() == "deflate" for encoding in accepted_encodings])
         serve_compressed = serve_compressed and (zip_info.compress_type == zipfile.ZIP_DEFLATED)
