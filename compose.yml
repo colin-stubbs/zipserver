@@ -1,0 +1,13 @@
+---
+services:
+  zipserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker.io/colinstubbs/zipserver:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./data:/data
+      - ./test.zip:/app/test.zip
+    command: ["--address", "0.0.0.0:80", "--num-threads", "32", "./test.zip"]
